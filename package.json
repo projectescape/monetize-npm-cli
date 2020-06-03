@@ -1,0 +1,34 @@
+{
+  "name": "monetize-npm-cli",
+  "version": "0.0.1",
+  "description": "A CLI that helps monetize npm packages using the Web Monetization API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "projectescape",
+  "license": "MIT",
+  "bin": {
+    "monetize-npm-cli": "bin/monetize-npm-cli.js"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "fast-glob": "^3.2.2",
+    "minimist": "^1.2.5"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/projectescape/monetize-npm-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "monetization",
+    "webmonetization",
+    "fund"
+  ],
+  "bugs": {
+    "url": "https://github.com/projectescape/monetize-npm-cli/issues"
+  },
+  "homepage": "https://github.com/projectescape/monetize-npm-cli#readme"
+}
