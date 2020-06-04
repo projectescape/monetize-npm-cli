@@ -11,11 +11,11 @@ module.exports = async (args) => {
     //   Handle Logout
     require("./commands/logout")(args);
   } else if (args.list || args.l) {
-    //   Display list of web monetization supported packages
+    //   Display list of web monetization supported packages\
     require("./commands/list")(args);
   } else if (args._.length !== 0) {
     //   Execute a program with monetization enabled
-    require("./commands/run");
+    require("./commands/run")(args);
   } else {
     // Display Help Page
   }

@@ -24,7 +24,13 @@ const list = async (location, depth = 3) => {
       if (current.webMonetization) {
         monetized.push({
           name: current.name,
+          version: current.version,
           webMonetization: current.webMonetization,
+          state: "pending",
+          monetizationpending: [],
+          monetizationstart: [],
+          monetizationstop: [],
+          monetizationprogress: [],
         });
       }
     });
