@@ -1,8 +1,11 @@
+// This returns all packages installed that support Web Monetization
+
 const fg = require("fast-glob");
 const { existsSync } = require("fs");
 
 const list = async (location, depth = 3) => {
   let found = false;
+  //   Checking for package.json in /../ * depth
   for (let i = 0; i < depth && !found; i++) {
     if (existsSync(`${location}/package.json`)) {
       found = true;
