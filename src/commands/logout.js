@@ -1,5 +1,7 @@
 // Handle Logout
 
+const { yellow } = require("kleur");
+
 module.exports = (args) => {
   let providerPackage;
   if (args.provider || args.P) {
@@ -8,7 +10,9 @@ module.exports = (args) => {
       args.P ? args.P : args.provider
     );
   } else {
-    console.log("No provider specified, defaulting to coil-extension\n");
+    console.log(
+      `No provider specified, defaulting to ${yellow("coil-extension")}\n`
+    );
     providerPackage = require("../utils/provider")("coil-extension");
   }
   const { logout } = require(providerPackage.package);

@@ -1,5 +1,7 @@
 // This returns all packages installed that support Web Monetization
 
+const { yellow, red, bgWhite, black } = require("kleur");
+
 const fg = require("fast-glob");
 const { existsSync } = require("fs");
 
@@ -15,7 +17,7 @@ const list = async (location, depth = 3) => {
   }
 
   if (found) {
-    console.log(`package.json found at ${location}package.json\n`);
+    console.log(`package.json found at ${yellow(`${location}package.json`)}\n`);
     let results = await fg([`${location}node_modules/**/package.json`]);
     let current;
     const monetized = [];
@@ -37,7 +39,13 @@ const list = async (location, depth = 3) => {
     return monetized;
   } else {
     console.log(
-      "No package.json found. Check location or specify depth using --depth\n"
+      red(
+        `No ${yellow(
+          "package.json"
+        )} found. Check location or specify depth using ${bgWhite(
+          black(` --depth `)
+        )}\n `
+      )
     );
     process.exit();
   }

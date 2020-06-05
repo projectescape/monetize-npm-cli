@@ -1,5 +1,7 @@
 //   Execute a program with monetization enabled
 
+const { yellow, red, green } = require("kleur");
+
 const cwd = `${process.cwd()}/`;
 const { existsSync } = require("fs");
 
@@ -103,7 +105,7 @@ globalThis.monetization = new Proxy(monetization, {
 module.exports = async (args) => {
   // Check if file exists
   if (!existsSync(`${cwd}${args._[0]}`)) {
-    console.log(`${args._[0]} not found, exiting\n`);
+    console.log(`${yellow(args._[0])}` + red(` not found, exiting\n`));
     process.exit();
   }
   // Handle Timeout
@@ -121,7 +123,9 @@ module.exports = async (args) => {
       args.P ? args.P : args.provider
     );
   } else {
-    console.log("No provider specified, defaulting to coil-extension\n");
+    console.log(
+      `No provider specified, defaulting to ${yellow("coil-extension")}\n`
+    );
     providerPackage = require("../utils/provider")("coil-extension");
   }
 
@@ -131,7 +135,9 @@ module.exports = async (args) => {
     args.depth ? args.depth : 3
   );
   if (monetization.packages.length > 0) {
-    console.log(`Monetizing ${monetization.packages.length} packages\n`);
+    console.log(
+      `Monetizing ${yellow(monetization.packages.length)} packages\n`
+    );
     await require(providerPackage.package).monetize(
       new Proxy(monetization, {
         set: () => {
@@ -149,8 +155,8 @@ module.exports = async (args) => {
       timeout
     );
   } else {
-    console.log("0 monetized packages found\n");
+    console.log(`${yellow("0")} monetized packages found\n`);
   }
-  console.log("Running application\n");
+  console.log(green("Running application\n"));
   require(`${cwd}${args._[0]}`);
 };

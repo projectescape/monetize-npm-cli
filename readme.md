@@ -119,3 +119,5 @@ To create a provider module compatible with this CLI, it must have 3 exposed met
     }
 }
 ```
+
+Create an issue on this repo to add support for your provider module.

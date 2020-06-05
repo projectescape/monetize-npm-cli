@@ -1,5 +1,7 @@
 // This can be used to return different packages for supported providers
 
+const { yellow } = require("kleur");
+
 const providers = [
   { name: "coil-extension", package: "wrapper-coil-extension" },
 ];
@@ -11,9 +13,11 @@ const providePackage = (name) => {
     }
   }
   console.log(
-    `No provider named ${name} found. If you think this is a problem, please raise an issue on github`
+    `No provider named ${yellow(
+      name
+    )} found. If you think this is a problem, please raise an issue on github`
   );
-  console.log("Defaulting to coil-extension as provider\n");
+  console.log(`Defaulting to ${yellow("coil-extension")} as provider\n`);
   return providers[0];
 };
 
