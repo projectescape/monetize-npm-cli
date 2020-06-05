@@ -6,7 +6,7 @@ const { existsSync } = require("fs");
 // Create a monetization object and its proxy for extensions to interact with
 
 const monetization = (() => {
-  const packages = [];
+  let packages = [];
 
   return {
     get packages() {
@@ -121,8 +121,8 @@ module.exports = async (args) => {
       args.P ? args.P : args.provider
     );
   } else {
-    console.log("No provider specified, defaulting to Coil\n");
-    providerPackage = require("../utils/provider")("coil");
+    console.log("No provider specified, defaulting to coil-extension\n");
+    providerPackage = require("../utils/provider")("coil-extension");
   }
 
   // Get list of monetized packages
@@ -132,7 +132,22 @@ module.exports = async (args) => {
   );
   if (monetization.packages.length > 0) {
     console.log(`Monetizing ${monetization.packages.length} packages\n`);
-    await require(providerPackage.package).monetize(monetization, timeout);
+    await require(providerPackage.package).monetize(
+      new Proxy(monetization, {
+        set: () => {
+          console.log("Not allowed to mutate values\n");
+        },
+        get(target, key, receiver) {
+          if (key === "packages" || key === "invokeListener") {
+            return Reflect.get(...arguments);
+          } else {
+            console.log(`Not allowed to access monetization.${key}\n`);
+            return null;
+          }
+        },
+      }),
+      timeout
+    );
   } else {
     console.log("0 monetized packages found\n");
   }

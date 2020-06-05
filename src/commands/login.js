@@ -8,8 +8,8 @@ module.exports = (args) => {
       args.P ? args.P : args.provider
     );
   } else {
-    console.log("No provider specified, defaulting to Coil\n");
-    providerPackage = require("../utils/provider")("coil");
+    console.log("No provider specified, defaulting to coil-extension\n");
+    providerPackage = require("../utils/provider")("coil-extension");
   }
   const { login } = require(providerPackage.package);
   login();

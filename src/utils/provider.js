@@ -1,6 +1,8 @@
 // This can be used to return different packages for supported providers
 
-const providers = [{ name: "coil", package: "wrapper-coil-extension" }];
+const providers = [
+  { name: "coil-extension", package: "wrapper-coil-extension" },
+];
 
 const providePackage = (name) => {
   for (let i = 0; i < providers.length; i++) {
@@ -11,7 +13,7 @@ const providePackage = (name) => {
   console.log(
     `No provider named ${name} found. If you think this is a problem, please raise an issue on github`
   );
-  console.log("Defaulting to Coil for provider\n");
+  console.log("Defaulting to coil-extension as provider\n");
   return providers[0];
 };
 

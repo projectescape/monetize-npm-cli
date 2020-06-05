@@ -15,9 +15,11 @@
     "esm": "^3.2.25",
     "fast-glob": "^3.2.2",
     "kleur": "^3.0.3",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "wrapper-coil-extension": "0.0.5"
   },
   "devDependencies": {},
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/projectescape/monetize-npm-cli.git"
