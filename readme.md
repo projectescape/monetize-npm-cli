@@ -4,6 +4,14 @@
 
 ---
 
+# Install
+
+```bash
+npm install -g monetize-npm-cli
+```
+
+---
+
 # Usage
 
 ## Run file
@@ -64,7 +72,41 @@ Use help to get full list of supported commands
 
 ---
 
-# Supported Packages
+# API
+
+The aim of this CLI is to mimic the web monetization API given [here](https://webmonetization.org/docs/api) as much as it could.
+Instead of `document.monetization`, user gets `globalThis.monetization`.
+
+`globalThis.monetization` itself is a proxy of an object which contains all the information and is not accessible globally.
+
+## Exposed Methods
+
+### getState
+
+`document.monetization.state` => `globalThis.monetization.getState(name, version)`
+name and version are defined in `package.json` of each package.
+
+### addListener
+
+There can be four listeners set up `monetizationpending`, `monetizationstart`, `monetizationstop`, `monetizationprogress`.
+Let identify them by listenerIdentifier.
+
+`document.monetization.addEventListener(listenerIdentifier, foo)` => `globalThis.monetization.addListener(name, version, listenerIdentifier, foo)`
+
+### removeListener
+
+`globalThis.monetization.removeListener(name, version, listenerIdentifier, foo)`
+If foo is not passed, all the listeners for that package are removed.
+
+---
+
+Currently only coil-extension is supported as a provider. You can see how that handles this API (here)[https://github.com/projectescape/wrapper-coil-extension#api]
+
+As more providers and modules come, API can be supported even more.
+
+---
+
+# Add Support for web monetization to Packages
 
 For packages to support web monetization, they must add a webMonetization key in thier package.json file
 
