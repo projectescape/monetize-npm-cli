@@ -1,6 +1,6 @@
 {
   "name": "monetize-npm-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A CLI that helps monetize npm packages using the Web Monetization API",
   "main": "index.js",
   "scripts": {

@@ -17,7 +17,9 @@ ${bgWhite(black(" --login "))} , ${bgWhite(black(" -L "))}
 Login into your web monetization provider.
 
 ${bgWhite(black(" --logout "))}
-    --provider, -P (Defaults to coil-extension if not provided/matched)
+    ${bgWhite(black(" --provider "))},${bgWhite(
+      black(" -P ")
+    )} (Defaults to coil-extension if not provided/matched)
 Logout from your web monetization provider.
 
 ${bgWhite(black(" --list "))} , ${bgWhite(black(" -l "))} 
@@ -28,7 +30,7 @@ Depth is the number of previous directories package.json will be searched for if
 Expand is used to list the names and version of pacages.
 
 ${bgWhite(black(" --version "))} , ${bgWhite(black(" -v "))}
-Returns the name and version of the package
+Returns name and version
 
 ${bgWhite(black(" File path given "))}
     ${bgWhite(black(" --provider "))} , ${bgWhite(

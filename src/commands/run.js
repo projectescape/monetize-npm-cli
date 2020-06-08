@@ -76,9 +76,9 @@ const monetization = (() => {
       console.log(`No package ${name}@${version} found\n`);
       return false;
     },
-    invokeListener(i, listener) {
+    invokeListener(i, listener, args = []) {
       packages[i][listener].forEach((l) => {
-        l();
+        l(...args);
       });
     },
   };
