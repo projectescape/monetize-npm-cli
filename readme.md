@@ -154,10 +154,11 @@ To create a provider module compatible with this CLI, it must have 3 exposed met
           monetizationprogress: [],
         }
     ],
-    invokeListener(i,listener){
+    invokeListener(i,listener,[args]){
         // i is the index of package
         // listener is the name of listeners to invoke
         // monetizationpending || monetizationstart || monetizationstop || monetizationprogress
+        // Pass args as an array
     }
 }
 ```
