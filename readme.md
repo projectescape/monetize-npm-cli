@@ -84,25 +84,23 @@ Instead of `document.monetization`, user gets `globalThis.monetization`.
 ### getState
 
 `document.monetization.state` => `globalThis.monetization.getState(name, version)`
-name and version are defined in `package.json` of each package.
+`name` and `version` are defined in `package.json` of each package.
 
-### addListener
+### addEventListener
 
 There can be four listeners set up `monetizationpending`, `monetizationstart`, `monetizationstop`, `monetizationprogress`.
 Let identify them by listenerIdentifier.
 
-`document.monetization.addEventListener(listenerIdentifier, foo)` => `globalThis.monetization.addListener(name, version, listenerIdentifier, foo)`
+`document.monetization.addEventListener(listenerIdentifier, foo)` => `globalThis.monetization.addEventListener(name, version, listenerIdentifier, foo)`
 
-### removeListener
+### removeEventListener
 
-`globalThis.monetization.removeListener(name, version, listenerIdentifier, foo)`
+`globalThis.monetization.removeEventListener(name, version, listenerIdentifier, foo)`
 If foo is not passed, all the listeners for that package are removed.
 
 ---
 
-Currently only coil-extension is supported as a provider. You can see how that handles this API (here)[https://github.com/projectescape/wrapper-coil-extension#api]
-
-As more providers and modules come, API can be supported even more.
+Currently only coil-extension is supported as a provider. You read more about it [here](https://github.com/projectescape/wrapper-coil-extension#api)
 
 ---
 
@@ -122,7 +120,7 @@ For packages to support web monetization, they must add a webMonetization key in
 
 # Providers
 
-This app currently comes with only `coil-extension` provider
+This app currently comes with only `coil-extension` provider as its the only provider existing right now, but support for more can be easily added as this CLI has been made keeping modularity in mind.
 
 ## Create a provider module
 
@@ -154,9 +152,8 @@ To create a provider module compatible with this CLI, it must have 3 exposed met
           monetizationprogress: [],
         }
     ],
-    invokeListener(i,listener,[args]){
-        // i is the index of package
-        // listener is the name of listeners to invoke
+    invokeListener(data){
+        // data is the response argument received when any event is fired
         // monetizationpending || monetizationstart || monetizationstop || monetizationprogress
         // Pass args as an array
     }

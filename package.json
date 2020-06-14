@@ -1,6 +1,6 @@
 {
   "name": "monetize-npm-cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A CLI that helps monetize npm packages using the Web Monetization API",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "fast-glob": "^3.2.2",
     "kleur": "^3.0.3",
     "minimist": "^1.2.5",
-    "wrapper-coil-extension": "0.0.6"
+    "wrapper-coil-extension": "0.0.7"
   },
   "devDependencies": {},
   "preferGlobal": true,

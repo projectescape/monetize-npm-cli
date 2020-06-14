@@ -28,7 +28,7 @@ const list = async (location, depth = 3) => {
           name: current.name,
           version: current.version,
           webMonetization: current.webMonetization,
-          state: "pending",
+          state: "stopped",
           monetizationpending: [],
           monetizationstart: [],
           monetizationstop: [],

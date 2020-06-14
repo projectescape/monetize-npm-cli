@@ -9,6 +9,8 @@ const { existsSync } = require("fs");
 
 const monetization = (() => {
   let packages = [];
+  const walletHash = {};
+  const nameHash = {};
 
   return {
     get packages() {
@@ -16,19 +18,22 @@ const monetization = (() => {
     },
     set packages(val) {
       packages = val;
-    },
+      val.forEach((p, index) => {
+        if (walletHash[p.webMonetization.wallet] === undefined)
+          walletHash[p.webMonetization.wallet] = [index];
+        else walletHash[p.webMonetization.wallet].push(index);
 
+        nameHash[`${p.name}@${p.version}`] = index;
+      });
+    },
     getState(name, version) {
-      for (let i = 0; i < packages.length; i++) {
-        if (packages[i].name === name && packages[i].version === version) {
-          return packages[i].state;
-        }
+      if (nameHash[`${name}@${version}`] !== undefined) {
+        return packages[nameHash[`${name}@${version}`]].state;
       }
       console.log(`No package ${name}@${version} found\n`);
       return undefined;
     },
-
-    addListener(name, version, listener, foo) {
+    addEventListener(name, version, listener, foo) {
       if (
         !(
           listener === "monetizationpending" ||
@@ -40,16 +45,14 @@ const monetization = (() => {
         console.log(`${listener} is not a valid event name\n`);
         return false;
       }
-      for (let i = 0; i < packages.length; i++) {
-        if (packages[i].name === name && packages[i].version === version) {
-          packages[i][listener].push(foo);
-          return true;
-        }
+      if (nameHash[`${name}@${version}`] !== undefined) {
+        packages[nameHash[`${name}@${version}`]][listener].push(foo);
+        return true;
       }
       console.log(`No package ${name}@${version} found\n`);
       return false;
     },
-    removeListener(name, version, listener, foo = undefined) {
+    removeEventListener(name, version, listener, foo = undefined) {
       if (
         !(
           listener === "monetizationpending" ||
@@ -61,24 +64,31 @@ const monetization = (() => {
         console.log(`${listener} is not a valid event name\n`);
         return false;
       }
-      for (let i = 0; i < packages.length; i++) {
-        if (packages[i].name === name && packages[i].version === version) {
-          if (!foo) {
-            packages[i][listener] = [];
-          } else {
-            packages[i][listener] = packages[i][listener].filter(
-              (found) => foo !== found
-            );
-          }
-          return true;
+      if (nameHash[`${name}@${version}`] !== undefined) {
+        if (!foo) {
+          packages[nameHash[`${name}@${version}`]][listener] = [];
+        } else {
+          packages[nameHash[`${name}@${version}`]][listener] = packages[
+            nameHash[`${name}@${version}`]
+          ][listener].filter((found) => foo !== found);
         }
+        return true;
       }
       console.log(`No package ${name}@${version} found\n`);
       return false;
     },
-    invokeListener(i, listener, args = []) {
-      packages[i][listener].forEach((l) => {
-        l(...args);
+    invokeEventListener(data) {
+      walletHash[data.detail.paymentPointer].forEach((index) => {
+        packages[index].state =
+          data.type === "monetizationstart" ||
+          data.type === "monetizationprogress"
+            ? "started"
+            : data.type === "monetizationpending"
+            ? "pending"
+            : "stopped";
+        packages[index][data.type].forEach((listener) => {
+          listener(data);
+        });
       });
     },
   };
@@ -91,8 +101,8 @@ globalThis.monetization = new Proxy(monetization, {
   get(target, key, receiver) {
     if (
       key === "getState" ||
-      key === "addListener" ||
-      key === "removeListener"
+      key === "addEventListener" ||
+      key === "removeEventListener"
     ) {
       return Reflect.get(...arguments);
     } else {
@@ -134,6 +144,7 @@ module.exports = async (args) => {
     cwd,
     args.depth ? args.depth : 3
   );
+
   if (monetization.packages.length > 0) {
     console.log(
       `Monetizing ${yellow(monetization.packages.length)} packages\n`
@@ -144,7 +155,7 @@ module.exports = async (args) => {
           console.log("Not allowed to mutate values\n");
         },
         get(target, key, receiver) {
-          if (key === "packages" || key === "invokeListener") {
+          if (key === "packages" || key === "invokeEventListener") {
             return Reflect.get(...arguments);
           } else {
             console.log(`Not allowed to access monetization.${key}\n`);
